@@ -16,6 +16,8 @@ $querie = new sqlQueries($pdo);
 // $mapFile = file('/data/data/com.termux/files/home/downloads/whdata.csv');
 $mapFile = file('../whdata.csv');
 $parseMap = [];
+$querie->emptyMap();
+
 for ($index = 0; $index < count($mapFile); $index++) {
 
     $temp = preg_split('/\t/', $mapFile[$index]);

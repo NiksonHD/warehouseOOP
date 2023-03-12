@@ -50,8 +50,8 @@ class sqlQueries {
 
     public function getArticleInfoBySap($sap) {
         $result = $this->db->prepare('SELECT * '
-                                    . 'FROM articles '
-                                    . 'WHERE sap = :sap');
+                . 'FROM articles '
+                . 'WHERE sap = :sap');
         $result->bindParam('sap', $sap);
         $result->execute();
         return $result->fetch(PDO::FETCH_ASSOC);
@@ -139,7 +139,7 @@ class sqlQueries {
         $result->fetch(PDO::FETCH_ASSOC);
         return $result;
     }
-    
+
     public function updateArticlesPath($sap, $path) {
         $result = $this->db->prepare(
                 'UPDATE articles
@@ -149,17 +149,17 @@ class sqlQueries {
         $result->bindParam('path', $path);
         $result->execute();
     }
-    
-    public function getAllArticles(){
-            $result = $this->db->query(' 
+
+    public function getAllArticles() {
+        $result = $this->db->query(' 
                     SELECT * 
                     FROM articles
                     ');
-            $result->execute();
-            $result->fetch(PDO::FETCH_ASSOC);
-         return $result;           
+        $result->execute();
+        $result->fetch(PDO::FETCH_ASSOC);
+        return $result;
     }
-    
+
     public function getMapArticles() {
         $result = $this->db->prepare(' SELECT cells.cell, articles.sap, map.create_date
                                         FROM `map` 
@@ -172,4 +172,11 @@ class sqlQueries {
         $result->fetch(PDO::FETCH_ASSOC);
         return $result;
     }
+
+    public function emptyMap() {
+        $return = $this->db->query(' 
+                                TRUNCATE map'
+                )->execute();
+    }
+
 }

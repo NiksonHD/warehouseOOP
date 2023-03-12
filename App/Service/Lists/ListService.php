@@ -54,14 +54,9 @@ class ListService implements ListServiceInterface {
         return $cellsDTO->getId();
     }
 
-    public function deleteCellArticleMap($cellId) {
-        return $this->repository->removeCellArticleMap($cellId);
-    }
+   
 
-    public function getAllDaily() {
-        return $this->repository->findAllDaily();
-    }
-
+   
     public function insertDaily($input) {
         if ($this->repository->findTileInfoBySap($input) && strlen($input) == 6) {
             $tile = $this->repository->findTileInfoBySap($input);
