@@ -51,7 +51,6 @@ if (!$access){
 }
 $access = $tileService->checkAccess($ip);
 
-
 (!$access->getEdit()) ? ($_SESSION["access"] = false) : ('');
 (!$access->getPic()) ? ($_SESSION["showPic"] = false) : ('');
 
