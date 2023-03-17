@@ -18,6 +18,8 @@
     position: absolute;
     top:50px;
 }
+
+
 #mobileBodyStyle{
     position: absolute;
     top:0px;
@@ -269,13 +271,14 @@
     }
 
 }
+
 .output-info{
     left: 20px;
     top: 20px;
     position: relative;
     padding: 10px 30px 30px 20px;
     background-color: #f8ecec;
-    line-height: 1;
+    line-height: 1.2;
     border: 0px solid #E9B82B;
     border-radius: 9px;
     /*text-shadow: 2px 2px 20px #29293d;*/
@@ -286,10 +289,33 @@
 .output-info,img{
     position: static;
 }
-/*
-@media only screen and (max-width: 600px) {
-.span{display: inline;}
-}*/
+@media only screen and (max-width: 600px){
+    #bodyStyle{
+        position: absolute;
+        top:20px;
+    }
+    .make-list{
+        /*visibility: hidden;*/
+        display: none;
+    }
+    .output-info{
+    position: relative;
+    padding: 5px 10px 20px 10px;
+    background-color: #f8ecec;
+    
+    border: 0px solid #E9B82B;
+    /*border-radius: 9px;*/
+    /*box-shadow: 5px 10px #888888;*/
+    box-shadow: 3px 3px 15px 2px rgba(150, 150, 150, 0.8);
+    margin: 2px 50px 1px 1px
+    }
+    .output-info p {
+        line-height: 1;
+    }
+    .list-form {
+        display: none;
+    }
+}
 
 
 .insert-list {

@@ -30,7 +30,7 @@ class TileHttpHandler extends Http\HttpHandlerAbstract {
                 $tileDTO->setCellFromInput($getData['cellOutput']);
                 $this->render('tiles/edit_cell', [$tileDTO], null);
             } else {
-                $this->render('tiles/edit_cell', ['tile'=>null], null);
+                $this->render('tiles/edit_cell', ['tile' => null], null);
             }
         }
     }
@@ -47,27 +47,34 @@ class TileHttpHandler extends Http\HttpHandlerAbstract {
 //            $this->getArticlesInCell($cell);
 //        }
         else {
+            $error = null;
             $cell = $getData['cell'];
             $cellInDigits = $this->digitsToLettersAdress($cell);
-            $tiles = $tileService->getArticlesCell($cellInDigits);
-            $tileDTOArray = [];
-            foreach ($tiles as $t) {
-                $tile = $tileService->getTileInfoByInput($t);
-                $tileDTOArray [] = $tile;
+            try {
+                $tiles = $tileService->getArticlesCell($cellInDigits);
+
+                $tileDTOArray = [];
+                foreach ($tiles as $t) {
+                    $tile = $tileService->getTileInfoByInput($t);
+                    $tileDTOArray [] = $tile;
+                }
+            } catch (Exception $ex) {
+                $error = $ex->getMessage();
+                $tileDTOArray = [];
             }
-            $this->render('tiles/edit_article', ['cell'=>$cellInDigits, 'tile'=>$tileDTOArray], [null]);
+            $this->render('tiles/edit_article', ['cell' => $cellInDigits, 'tile' => $tileDTOArray], [$error]);
         }
     }
 
     public function find(TileServiceInterface $tileService, UserServiceInterface $userService, $formData, $getData) {
-        $dateBack5hours =  date('Y-m-d H:i', strtotime("-5 hours")) ;
+        $dateBack5hours = date('Y-m-d H:i', strtotime("-5 hours"));
 
         $tileService->delete5HoursDaily($dateBack5hours);
         $user = null;
-        if($userService->isLogged()){
+        if ($userService->isLogged()) {
             $user = $userService->currentUser();
         }
-        
+
         if (isset($formData['tileNumber'])) {
             $inputData = $formData['tileNumber'];
             $tileService->insertDaily($inputData);
@@ -80,7 +87,7 @@ class TileHttpHandler extends Http\HttpHandlerAbstract {
             $inputData = $getData['sap'];
             $this->handleFindProcess($tileService, $inputData);
         } else {
-        $this->render('tiles/find', ['tile'=>null, 'user'=>$user], [null]);
+            $this->render('tiles/find', ['tile' => null, 'user' => $user], [null]);
         }
     }
 
@@ -108,9 +115,9 @@ class TileHttpHandler extends Http\HttpHandlerAbstract {
                 $tile->setShowPic($_SESSION["showPic"]);
                 $tileDTOArray [] = $tile;
             }
-            $this->render('tiles/find', ['tile'=>$tileDTOArray,'user' =>null], [null]);
+            $this->render('tiles/find', ['tile' => $tileDTOArray, 'user' => null], [null]);
         } catch (Exception $ex) {
-            $this->render('tiles/find', ['tile'=>null,null], [$ex->getMessage()]);
+            $this->render('tiles/find', ['tile' => null, null], [$ex->getMessage()]);
         }
     }
 
@@ -171,7 +178,12 @@ class TileHttpHandler extends Http\HttpHandlerAbstract {
                     $sap = $tile->getSap();
                     $this->redirect("index.php?sap=$sap");
                 }
-                $tileDTO = $tileService->getTileInfoByInput($formData['article']);
+                if (strlen($formData['article']) == 6) {
+                    $tileDTO = $tileService->getTileInfoBySap($formData['article']);
+                } else {
+
+                    $tileDTO = $tileService->getTileInfoByInput($formData['article']);
+                }
                 $cellInDigits = $this->digitsToLettersAdress($getData['cell']);
                 $cellId = $tileService->getCellId($cellInDigits);
             }
@@ -188,9 +200,9 @@ class TileHttpHandler extends Http\HttpHandlerAbstract {
             $this->redirect("index.php?cell=$cellInDigits");
         } catch (Exception $ex) {
             if ($ex->getCode() == 2) {
-            $this->render('tiles/edit_cell', ['tile' =>null], [$ex->getMessage()]);
+                $this->render('tiles/edit_cell', ['tile' => null], [$ex->getMessage()]);
             } else {
-                $this->render('tiles/edit_article', ['tile' =>null, 'cell' => null], [$ex->getMessage()]);
+                $this->render('tiles/edit_article', ['tile' => null, 'cell' => null], [$ex->getMessage()]);
             }
         }
     }
@@ -226,11 +238,11 @@ class TileHttpHandler extends Http\HttpHandlerAbstract {
 
     public function showDaily(TileServiceInterface $tileService, $formData, $getData) {
         $dailySearches = $tileService->getAllDaily();
-        $this->render('daily/show_all', ['tile'=>$dailySearches]);
+        $this->render('daily/show_all', ['tile' => $dailySearches]);
     }
 
     public function menu() {
-        $this->render('menu/main',[null]);
+        $this->render('menu/main', [null]);
     }
 
     public function multiEditCell(TileServiceInterface $tileService, $formData, $getData) {
@@ -243,7 +255,7 @@ class TileHttpHandler extends Http\HttpHandlerAbstract {
                 $cellExist = $tileService->getCellId($cell);
                 $this->redirect("edit_article_multi.php?cell=$cell");
             } catch (Exception $ex) {
-            $this->render('tiles/edit_cell_multi', null, [$ex->getMessage()]);
+                $this->render('tiles/edit_cell_multi', null, [$ex->getMessage()]);
             }
         } else {
             if (isset($formData['article'])) {
@@ -308,7 +320,7 @@ class TileHttpHandler extends Http\HttpHandlerAbstract {
                 $articleId = $tile->getId();
 
                 $tileService->deleteAllArticlesMap($cellId, $articleId);
-                $this->render('tiles/delete_article_multi', ['cell' => $cell, 'tile' =>[$tile]], [null]);
+                $this->render('tiles/delete_article_multi', ['cell' => $cell, 'tile' => [$tile]], [null]);
             } catch (Exception $ex) {
                 $this->render('tiles/delete_article_multi', ['cell' => $cell], [$ex->getMessage()]);
             }

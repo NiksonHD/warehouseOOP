@@ -240,4 +240,13 @@ class TileRepository extends DatabaseAbstract implements TileRepositoryInterface
                         ->rowCount();
     }
 
+    public function insertArticleInfo($sap) {
+        return $this->db->query('INSERT INTO articles
+                                (sap)
+                                VALUES
+                                (?)
+                ')->execute([$sap])
+                ->rowCount();
+    }
+
 }

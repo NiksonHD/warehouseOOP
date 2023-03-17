@@ -118,4 +118,13 @@ class TileService implements TileServiceInterface {
         return $this->repository->insertIp($ip);
     }
 
+    public function getTileInfoBySap($sap) {
+        if ($this->repository->findTileInfoBySap($sap)) {
+            return $this->repository->findTileInfoBySap($sap);
+        }else{
+           $this->repository->insertArticleInfo($sap);
+            return $this->repository->findTileInfoBySap($sap);
+        }
+    }
+
 }

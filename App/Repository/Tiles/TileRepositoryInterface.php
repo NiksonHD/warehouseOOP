@@ -41,4 +41,6 @@ interface TileRepositoryInterface {
     public function delete5HoursBackDaily($date);
     
     public function insertIp($ip);
+    
+    public function insertArticleInfo($sap);
 }

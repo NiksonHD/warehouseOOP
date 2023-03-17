@@ -20,8 +20,6 @@
             <!--<a href="export_data.php">Export</a>-->
             <a href="show_lists.php">СПИСЪЦИ</a>
             <a href="daily.php">DAILY</a>
-            <!--<a href="profile.php">[]</a>-->
-            
             <?php if (key_exists('user', $data) && ($data['user'])): ?>
             <a href="logout.php">LOGOUT >> <?=$data['user']->getUsername()?></a>
             <?php endif; ?>
@@ -30,3 +28,4 @@
     </header>
     <body id="bodyStyle" Onload='document.getElementById("focusCell").focus()'>
         <main>
+            <br>

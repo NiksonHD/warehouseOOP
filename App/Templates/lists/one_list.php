@@ -1,6 +1,6 @@
 <?php require_once __DIR__ . '../../header.php'; ?>
 <h2>Лист # <?= $data[0]->getId(); ?>&nbsp, <span><?= $data[0]->getComment() ?></span>
-    <span><?= $data[0]->getUpdateDate() ?></span>
+    <small>от <?= $data[0]->getUpdateDate() ?></small>
         <br><img  alt="<?= $data[0]->getId() ?>" src="barcode.php?text=<?= $data[0]->getId() ?>&size=10&print=true" />
 
 </h2> 

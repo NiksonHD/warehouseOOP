@@ -54,9 +54,6 @@ class ListService implements ListServiceInterface {
         return $cellsDTO->getId();
     }
 
-   
-
-   
     public function insertDaily($input) {
         if ($this->repository->findTileInfoBySap($input) && strlen($input) == 6) {
             $tile = $this->repository->findTileInfoBySap($input);
@@ -112,7 +109,8 @@ class ListService implements ListServiceInterface {
     }
 
     public function findOne($id) {
-        $list = $this->repository->findOneList($id);
+        (!$list = $this->repository->findOneList($id)) ? throw new \Exception('Нe е намерен списък с номер: ' . $id, 1) : '';
+        
         $listArray = explode(' ', $list->getListString());
         foreach ($listArray as $key => $item) {
             $findedCells = [];

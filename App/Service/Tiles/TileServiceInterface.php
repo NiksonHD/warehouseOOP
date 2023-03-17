@@ -41,5 +41,7 @@ interface TileServiceInterface {
     public function delete5HoursDaily($date);
     
     public function registerIp($ip);
+    
+    public function getTileInfoBySap($sap);
 
 }
