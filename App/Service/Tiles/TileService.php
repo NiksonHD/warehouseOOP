@@ -65,11 +65,13 @@ class TileService implements TileServiceInterface {
     public function insertDaily($input) {
         if ($this->repository->findTileInfoBySap($input) && strlen($input) == 6) {
             $tile = $this->repository->findTileInfoBySap($input);
-            return $this->repository->editDaily($tile->getId());
+            $ip = ($_SERVER["REMOTE_ADDR"]);
+            return $this->repository->editDaily($tile->getId(), $ip);
         }
         if ($this->repository->findTileInfoByEan($input) && strlen($input) == 13) {
             $tile = $this->repository->findTileInfoByEan($input);
-            return $this->repository->editDaily($tile->getId());
+            $ip = ($_SERVER["REMOTE_ADDR"]);
+            return $this->repository->editDaily($tile->getId(), $ip);
         }
     }
 
@@ -125,6 +127,11 @@ class TileService implements TileServiceInterface {
            $this->repository->insertArticleInfo($sap);
             return $this->repository->findTileInfoBySap($sap);
         }
+    }
+
+    public function getAllDailyByIp() {
+         $ip = ($_SERVER["REMOTE_ADDR"]);
+         return $this->repository->getAllDailyByIp($ip);
     }
 
 }

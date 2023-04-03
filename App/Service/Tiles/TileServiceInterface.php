@@ -43,5 +43,7 @@ interface TileServiceInterface {
     public function registerIp($ip);
     
     public function getTileInfoBySap($sap);
+    
+    public function getAllDailyByIp();
 
 }

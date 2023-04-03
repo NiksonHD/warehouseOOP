@@ -124,12 +124,12 @@ class TileRepository extends DatabaseAbstract implements TileRepositoryInterface
         }
     }
 
-    public function editDaily($article_id) {
+    public function editDaily($article_id, $ip) {
         return $this->db->query('INSERT INTO daily
-                                (article_id)
+                                (article_id, ip)
                                 VALUES
-                                (?)
-                                ')->execute([$article_id])
+                                (?,?)
+                                ')->execute([$article_id, $ip])
                         ->rowCount();
     }
 
@@ -247,6 +247,21 @@ class TileRepository extends DatabaseAbstract implements TileRepositoryInterface
                                 (?)
                 ')->execute([$sap])
                 ->rowCount();
+    }
+
+    public function getAllDailyByIp($ip) {
+        $result = $this->db->query('SELECT daily.id, daily.article_id, create_date, sap, name
+                                     FROM daily
+                                     JOIN articles
+                                     ON daily.article_id = articles.id
+                                     AND daily.ip = ?
+                                     ORDER BY daily.create_date DESC
+                                    ')->execute([$ip])
+                ->fetchAssoc();
+        foreach ($result as $row) {
+            $cellAdress = $this->dataBinder->bind($row, \App\Data\DailyDTO::class);
+            yield $cellAdress;
+        }
     }
 
 }

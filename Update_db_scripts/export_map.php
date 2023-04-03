@@ -9,7 +9,7 @@ spl_autoload_register(function ($className) {
 });
 // $dbInfo = parse_ini_file("/data/data/com.termux/files/home/storage/movies/warehouse_app/Update db scripts/db.ini");
 //$dbInfo = parse_ini_file("C:/xampp/htdocs/warehouse_app/Update_db_scripts/db.ini");
-$dbInfo = parse_ini_file("/home/nikson/localhost/warehouseOOP/Config/db.ini");
+$dbInfo = parse_ini_file("C:/xampp\htdocs/warehouse_app/Config/db.ini");
 
 $pdo = new PDO($dbInfo['dsn'], $dbInfo['user'], $dbInfo['pass']);
 $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -36,7 +36,7 @@ foreach ($mapData as $data) {
 
 
 
-$output = fopen("map-whdata.csv", "w");
+$output = fopen("C:/Users/a/Downloads/whdata.csv", "w");
 
 fputcsv($output, array('tile_cell', 'sap_num'), "\t");
 foreach ($map as $key => $article) {

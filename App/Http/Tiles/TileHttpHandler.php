@@ -237,8 +237,13 @@ class TileHttpHandler extends Http\HttpHandlerAbstract {
     }
 
     public function showDaily(TileServiceInterface $tileService, $formData, $getData) {
-        $dailySearches = $tileService->getAllDaily();
-        $this->render('daily/show_all', ['tile' => $dailySearches]);
+        if (isset($getData['select']) && $getData['select'] = 'ip') {
+            $dailySearches = $tileService->getAllDailyByIp();
+            $this->render('daily/show_all', ['tile' => $dailySearches]);
+        } else {
+            $dailySearches = $tileService->getAllDaily();
+            $this->render('daily/show_all', ['tile' => $dailySearches]);
+        }
     }
 
     public function menu() {

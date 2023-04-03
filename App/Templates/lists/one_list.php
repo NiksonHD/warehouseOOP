@@ -11,12 +11,14 @@
             <p>
                 <span>
                     <a href="index.php?sap=<?= $tile->getSap() ?>"><?= $tile->getSap() ?></a> &nbsp<?= $tile->getName() ?>,
-                    <?php if ($tile->getShowPic()): ?>
-                        <img class="one-list-img" src="https://praktiker.bg<?= $tile->getPicPath() ?>" width="60" height="60">
-                    <?php endif; ?>
+                    
                 </span><br>
                 EAN:&nbsp<?= $tile->getEan() ?>,<br>
-                Наличност:&nbsp<?= $tile->getQuantity() ?> бр., към <?= $tile->getUpdateDate() ?>,<br>
+                Наличност:&nbsp<?= $tile->getQuantity() ?> бр., към <?= $tile->getUpdateDate() ?>
+                <?php if ($tile->getShowPic()): ?>
+                        <img class="one-list-img" src="https://praktiker.bg<?= $tile->getPicPath() ?>" width="60" height="60">
+                    <?php endif; ?>
+                ,<br>
                 Клетки:&nbsp 
                 <?php foreach ($tile->getCells() as $cell): ?>
                     <button title="Последно записване в клетката: <?= $cell->getUpdateDate() ?>" onclick="document.location = 'edit_article.php?cell=<?= $cell->getCell() ?>'" type="button"><?= $cell->getCell() ?></button>
@@ -29,7 +31,6 @@
                 За товарене: <?= $tile->getLoads() ?> бр.
             </p>
             <hr>
-
         <?php endforeach; ?>
     <?php endforeach; ?>
 

@@ -7,7 +7,7 @@ spl_autoload_register(function ($className) {
 
     include_once __DIR__ . '/' . $className . '.php';
 });
-$dbInfo = parse_ini_file("/home/nikson/localhost/warehouseOOP/Config/db.ini");
+$dbInfo = parse_ini_file("../Config/db.ini");
 
 $pdo = new PDO($dbInfo['dsn'], $dbInfo['user'], $dbInfo['pass']);
 $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);

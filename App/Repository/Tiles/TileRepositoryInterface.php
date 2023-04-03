@@ -22,7 +22,7 @@ interface TileRepositoryInterface {
 
     public function findAllDaily();
 
-    public function editDaily($article_id);
+    public function editDaily($article_id, $ip);
 
     public function checkAccess($ip);
 
@@ -43,4 +43,6 @@ interface TileRepositoryInterface {
     public function insertIp($ip);
     
     public function insertArticleInfo($sap);
+    
+    public function getAllDailyByIp($ip);
 }
