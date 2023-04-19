@@ -3,7 +3,7 @@
 <?php require_once __DIR__ . '../../header.php'; ?>
 <main>
     <h1> Дневни Търсения</h1>
-    <button class="make-list" onclick="document.location = 'daily.php?select=ip'" type="button">device</button>
+    <button class="make-list" onclick="document.location = 'daily.php'" type="button">All devices</button>
     <div class="daily-output-info">
         <ul>
             <?php if ($data['tile']): ?>

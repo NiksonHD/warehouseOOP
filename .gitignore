@@ -1,5 +1,6 @@
 /nbproject
 /Config
+/Update_db_scripts
 
 send_backup.php
 *.sql

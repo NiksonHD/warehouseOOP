@@ -20,7 +20,7 @@
             <!--<a href="edit_article_dimensions.php">Въвеждане размери</a>-->
             <!--<a href="export_data.php">Export</a>-->
             <a href="show_lists.php">СПИСЪЦИ</a> |
-            <a href="daily.php">DAILY</a>|
+            <a href="daily.php?select=ip">DAILY</a>|
             <?php if (key_exists('user', $data) && ($data['user'])): ?>
             <a href="logout.php">LOGOUT >> <?=$data['user']->getUsername()?></a>
             <?php endif; ?>

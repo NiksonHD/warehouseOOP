@@ -295,8 +295,7 @@
         top:20px;
     }
     .make-list{
-        /*visibility: hidden;*/
-        display: none;
+        /*display: none;*/
     }
     .output-info{
     position: relative;

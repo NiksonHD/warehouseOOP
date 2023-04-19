@@ -27,7 +27,7 @@ class TileService implements TileServiceInterface {
             return $this->repository->findTileInfoBySap($input);
         }
         if (strlen($input) == 3 || strlen($input) == 4) {
-            (!$tile = $this->repository->findSapByCell($input)) ? throw new \Exception('Невалидни данни или празна клетка! ->' . $input, 1) : '';
+            (!$tile = $this->repository->findSapByCell($input)) ? throw new \Exception('Невалидни данни или <br> празна клетка! -> ' . $input, 1) : '';
             return $this->repository->findTileInfoBySap($tile->getSap());
         }
         if ($this->repository->findTileInfoBySap($input) && strlen($input) == 6) {
@@ -84,13 +84,13 @@ class TileService implements TileServiceInterface {
     }
 
     public function getArticlesCell($cell) {
-        (!$cellDTO = $this->repository->findCellId($cell)) ? throw new \Exception('Невалидни данни или празна клетка! ->' . $cell, 1) : ("");
+        (!$cellDTO = $this->repository->findCellId($cell)) ? throw new \Exception('Невалидни данни или <br> празна клетка! -> ' . $cell, 1) : ("");
         $articles = $this->repository->findTilesStringByCell($cellDTO->getId());
         $tiles = [];
         foreach ($articles as $article) {
             $tiles [] = $article['sap'];
         }
-        (empty($tiles)) ? throw new \Exception('Невалидни данни или празна клетка! ->' . $cell, 1) : ("");
+        (empty($tiles)) ? throw new \Exception('Невалидни данни или <br> празна клетка! -> ' . $cell, 1) : ("");
         return $tiles;
     }
 
