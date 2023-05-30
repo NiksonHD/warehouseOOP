@@ -2,7 +2,8 @@
 
 namespace App\Service\Lists;
 
-class ListService implements ListServiceInterface {
+class ListService implements ListServiceInterface
+{
 
     /**
      *
@@ -10,24 +11,30 @@ class ListService implements ListServiceInterface {
      */
     private $repository;
 
-    public function __construct(\App\Repository\Tiles\TileRepositoryInterface $repository) {
+    public function __construct(\App\Repository\Tiles\TileRepositoryInterface $repository)
+    {
         $this->repository = $repository;
     }
 
-    public function getTileAdressById(string $id) {
+    public function getTileAdressById(string $id)
+    {
 
         return $this->repository->findTileAdressById($id);
     }
 
-    public function getTileInfoByInput(string $input) {
+    public function getTileInfoByInput(string $input)
+    {
         if ($input == '' || $input == 0) {
-            throw new \Exception('Невалидни данни ! -> ' . $input);
+            throw new \Exception('Невалидни данни ! -> '.$input);
         }
         if ($this->repository->findTileInfoBySap($input) && strlen($input) == 1) {
             return $this->repository->findTileInfoBySap($input);
         }
         if (strlen($input) == 3 || strlen($input) == 4) {
-            (!$tile = $this->repository->findSapByCell($input)) ? throw new \Exception('Невалидни данни или празна клетка! ->' . $input, 1) : '';
+            if (!$tile = $this->repository->findSapByCell($input)) {
+                throw new \Exception('Невалидни данни или празна клетка! ->'.$input, 1);
+            }
+
             return $this->repository->findTileInfoBySap($tile->getSap());
         }
         if ($this->repository->findTileInfoBySap($input) && strlen($input) == 6) {
@@ -36,44 +43,54 @@ class ListService implements ListServiceInterface {
         if ($this->repository->findTileInfoByEan($input) && strlen($input) == 13) {
             return $this->repository->findTileInfoByEan($input);
         }
-        throw new \Exception('Невалидни данни! ->  ' . $input, 1);
+        throw new \Exception('Невалидни данни! ->  '.$input, 1);
     }
 
-    public function getTilesStringByCell(string $input) {
+    public function getTilesStringByCell(string $input)
+    {
         return $this->repository->findTilesStringByCell($input);
     }
 
-    public function changeArticleAdress($cell, $article) {
+    public function changeArticleAdress($cell, $article)
+    {
         return $this->repository->editArticleAdress($cell, $article);
     }
 
-    public function getCellId($cell) {
+    public function getCellId($cell)
+    {
         if (!$cellsDTO = $this->repository->findCellId($cell)) {
-            throw new \Exception('Невалидни данни! ->  ' . $cell, 2);
+            throw new \Exception('Невалидни данни! ->  '.$cell, 2);
         }
+
         return $cellsDTO->getId();
     }
 
-    public function insertDaily($input) {
+    public function insertDaily($input)
+    {
         if ($this->repository->findTileInfoBySap($input) && strlen($input) == 6) {
             $tile = $this->repository->findTileInfoBySap($input);
+
             return $this->repository->editDaily($tile->getId());
         }
         if ($this->repository->findTileInfoByEan($input) && strlen($input) == 13) {
             $tile = $this->repository->findTileInfoByEan($input);
+
             return $this->repository->editDaily($tile->getId());
         }
     }
 
-    public function deleteCellMap($cellId) {
-        
+    public function deleteCellMap($cellId)
+    {
+
     }
 
-    public function checkAccess($ip) {
+    public function checkAccess($ip)
+    {
         return $this->repository->checkAccess($ip);
     }
 
-    public function insertList($articles) {
+    public function insertList($articles)
+    {
         $errors = [];
         $comment = '';
         if ($articles['comment'] != "") {
@@ -87,11 +104,11 @@ class ListService implements ListServiceInterface {
         $listString = implode(' ', $articles);
         $listString = trim($listString);
         foreach ($articles as $key => $article) {
-            if ($key === 'a' . $currentKey) {
+            if ($key === 'a'.$currentKey) {
                 if ($this->repository->findTileInfoBySap($article) && strlen($article) == 6) {
                     $tiles [] = $this->repository->findTileInfoBySap($article);
                 } elseif ($article !== '') {
-                    $errors ['e' . $currentKey] = 'Невалиден код!';
+                    $errors ['e'.$currentKey] = 'Невалиден код!';
                 }
                 $currentKey++;
             }
@@ -105,12 +122,18 @@ class ListService implements ListServiceInterface {
             $listId = $this->repository->editList($list);
             $list->setId($listId);
         }
+
         return $list;
     }
 
-    public function findOne($id) {
-        (!$list = $this->repository->findOneList($id)) ? throw new \Exception('Нe е намерен списък с номер: ' . $id, 1) : '';
-        
+    public function findOne($id)
+    {
+        if (!$list = $this->repository->findOneList($id)) {
+            throw new \Exception(
+                'Нe е намерен списък с номер: '.$id, 1
+            );
+        }
+
         $listArray = explode(' ', $list->getListString());
         foreach ($listArray as $key => $item) {
             $findedCells = [];
@@ -130,10 +153,12 @@ class ListService implements ListServiceInterface {
                 $list->setTiles($tiles);
             }
         }
+
         return $list;
     }
 
-    public function findAll($date) {
+    public function findAll($date)
+    {
         return $this->repository->getAllLists($date);
     }
 

@@ -1,5 +1,6 @@
 <?php
-
+error_reporting(E_ALL);
+ini_set('display_errors', 'On');
 use App\Http\Tiles\TileHttpHandler;
 use App\Repository\Tiles\TileRepository;
 use App\Service\Lists\ListService;

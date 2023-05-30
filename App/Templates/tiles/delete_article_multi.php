@@ -8,7 +8,7 @@
 </div>
 
 <p></p>
-<div style="font-size: 20px; color: red">CHG клетка: <?= ($data) ? $data['cell'] : '' ?> </div>
+<div style="font-size: 20px; color: red">CHG клетка: <?= ($data) ? $data[0] : '' ?> </div>
 <div> 
     <?php if (key_exists('tile',$data)): ?>
     <?php foreach ($data['tile'] as $tile): ?>

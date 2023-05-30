@@ -16,7 +16,6 @@ class TileHttpHandler extends Http\HttpHandlerAbstract {
             $this->redirect('index.php');
         }
         if (isset($formData['cell'])) {
-
             if (isset($getData['article'])) {
                 $this->handleEditProcces($tileService, $getData, $formData);
                 exit;
@@ -52,7 +51,6 @@ class TileHttpHandler extends Http\HttpHandlerAbstract {
             $cellInDigits = $this->digitsToLettersAdress($cell);
             try {
                 $tiles = $tileService->getArticlesCell($cellInDigits);
-
                 $tileDTOArray = [];
                 foreach ($tiles as $t) {
                     $tile = $tileService->getTileInfoByInput($t);
